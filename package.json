@@ -1,0 +1,22 @@
+{
+  "name": "new_upload_server",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "NFWdesign.com",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "multer": "^2.0.2",
+    "mysql2": "^3.15.3",
+    "nodemon": "^3.1.10",
+    "sharp": "^0.34.4"
+  }
+}
