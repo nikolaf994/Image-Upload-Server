@@ -68,17 +68,14 @@ Each company or user has an isolated upload directory.
 
 ## Authentication
 
-Uploads require:
+Uploads require simple credential-based authentication.
+
+Each upload request must include:
 - `:username` as a URL parameter
 - `userSecret` provided via form-data
 
-Authentication is handled via a custom validation function:
-
-```js
-validateCompanyUser(username, userSecret)
-````
-
-Unauthorized uploads are rejected with a `403 Forbidden` response.
+The server validates the provided credentials against its internal user store.
+Unauthorized or invalid requests are rejected with a `403 Forbidden` response.
 
 ---
 
@@ -190,4 +187,5 @@ Attribution must include:
 * The author’s name
 * A link to the original repository
 * A clear statement that the project is based on this work
+
 
