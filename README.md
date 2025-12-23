@@ -1,7 +1,6 @@
-﻿# Image-Upload-Server
 
 ```md
-#  Image Upload & Dynamic Processing Server
+# Image Upload & Dynamic Processing Server
 
 A lightweight, high-performance **Node.js image upload and delivery server** built with **Express, Multer, and Sharp**.
 
@@ -11,48 +10,46 @@ Designed for modern web apps that need fast, scalable image handling without rel
 
 ---
 
-##  Features
+## Features
 
--  **Secure image uploads**
+- Secure image uploads
   - Multipart/form-data uploads
   - Simple per-user authentication via `userSecret`
   - Company-based image isolation
 
--  **Dynamic image transformations**
-  - Resize (`w`, `h`)
-  - Fit modes (`cover`, `contain`, `fill`, `inside`, `outside`)
+- Dynamic image transformations
+  - Resize by width and height
+  - Multiple fit modes (`cover`, `contain`, `fill`, `inside`, `outside`)
   - Format conversion (`webp`, `jpg`, `png`)
-  - Grayscale, invert colors
-  - Blur
+  - Grayscale, invert colors, blur
   - Quality control
 
--  **Smart file-system caching**
+- Smart filesystem caching
   - Generated images are cached on disk
-  - Concurrent request protection (no duplicate processing)
-  - Automatic cache reuse for identical transformations
+  - Cache keys based on transformation parameters
+  - Concurrent generation lock to prevent duplicate processing
 
--  **Production-ready performance**
-  - Sharp (native, fast image processing)
-  - Immutable cache headers (`Cache-Control: max-age=31536000`)
-  - Memory-based upload handling (no temp files)
+- Production-ready delivery
+  - Immutable cache headers
+  - Optimized Sharp pipeline
+  - Memory-based uploads (no temporary files)
 
--  **CORS-enabled**
-  - Ready for usage from any frontend (Next.js, React, mobile apps, etc.)
-
----
-
-##  Tech Stack
-
-- **Node.js**
-- **Express**
-- **Multer** (in-memory uploads)
-- **Sharp** (image processing)
-- **Filesystem cache**
-- **CORS**
+- CORS enabled
+  - Ready for usage from any frontend or client
 
 ---
 
-## 📁 Folder Structure
+## Tech Stack
+
+- Node.js
+- Express
+- Multer (memory storage)
+- Sharp
+- Filesystem-based cache
+
+---
+
+## Folder Structure
 
 ```
 
@@ -66,32 +63,33 @@ uploads/
 
 ````
 
-Each company/user gets its own isolated upload directory.
+Each company or user has an isolated upload directory.
 
 ---
 
-## 🔐 Authentication
+## Authentication
 
 Uploads require:
-- `:username` (URL param)
-- `userSecret` (form-data field)
+- `:username` as a URL parameter
+- `userSecret` provided via form-data
 
-Authentication is handled via:
+Authentication is handled via a custom validation function:
+
 ```js
 validateCompanyUser(username, userSecret)
 ````
 
-Unauthorized uploads are rejected with **403 Forbidden**.
+Unauthorized uploads are rejected with a `403 Forbidden` response.
 
 ---
 
-##  Upload Endpoint
+## Upload Endpoint
 
 ```
 POST /:username/upload
 ```
 
-### Form-Data
+### Form Data
 
 | Field      | Type   |
 | ---------- | ------ |
@@ -106,11 +104,11 @@ POST /:username/upload
 }
 ```
 
-The image is stored in its **original format**, untouched.
+The uploaded file is stored in its original format.
 
 ---
 
-##  Image Serve & Transform Endpoint
+## Image Serve and Transform Endpoint
 
 ```
 GET /:username/:image
@@ -118,16 +116,16 @@ GET /:username/:image
 
 ### Query Parameters
 
-| Param    | Description                                                |
-| -------- | ---------------------------------------------------------- |
-| `w`      | Width                                                      |
-| `h`      | Height                                                     |
-| `f`      | Fit mode (`cover`, `contain`, `fill`, `inside`, `outside`) |
-| `q`      | Quality (1–100)                                            |
-| `grey`   | Grayscale                                                  |
-| `invert` | Invert colors (`1`)                                        |
-| `blur`   | Blur intensity                                             |
-| Format   | `.webp`, `.jpg`, `.png`                                    |
+| Parameter | Description                 |
+| --------- | --------------------------- |
+| w         | Width                       |
+| h         | Height                      |
+| f         | Fit mode                    |
+| q         | Quality (1–100)             |
+| grey      | Grayscale                   |
+| invert    | Invert colors (use `1`)     |
+| blur      | Blur intensity              |
+| Format    | Output format via extension |
 
 ### Example
 
@@ -137,21 +135,16 @@ GET /:username/:image
 
 ---
 
-##  Caching Strategy
+## Caching Strategy
 
 * Transformed images are cached on disk
-* Cache keys are based on:
-
-  * Size
-  * Format
-  * Effects
-  * Quality
-* Duplicate processing is prevented using an **in-memory generation lock**
-* Cached images are served instantly on subsequent requests
+* Cache filenames are generated from transformation parameters
+* Identical requests reuse existing cache files
+* Concurrent requests for the same transformation wait for a single generation
 
 ---
 
-##  HTTP Cache Headers
+## HTTP Cache Headers
 
 All served images include:
 
@@ -159,31 +152,27 @@ All served images include:
 Cache-Control: public, max-age=31536000, immutable
 ```
 
-Perfect for:
-
-* CDN usage
-* Browser caching
-* High-traffic environments
+This makes the server suitable for CDN usage and aggressive browser caching.
 
 ---
 
-##  Environment Variables
+## Environment Variables
 
-```env
+```
 PORT=3001
 BASE_URL=http://localhost:3001
 ```
 
 ---
 
-##  Getting Started
+## Getting Started
 
-```bash
+```
 npm install
 node server.js
 ```
 
-Server will start on:
+The server will start on:
 
 ```
 http://localhost:3001
@@ -191,29 +180,14 @@ http://localhost:3001
 
 ---
 
-##  Use Cases
-
-* SaaS dashboards
-* CMS platforms
-* E-commerce image handling
-* User-generated content
-* Internal media services
-* Replacing paid image CDNs
-
----
-
-## 📄 License
+## License
 
 MIT License with Attribution Requirement.
 
-If you use this project, in whole or in part, you must give appropriate credit by:
-- Mentioning the original author
-- Linking to this repository
-- Clearly stating that your project is based on this work
+You are free to use, modify, and distribute this software, provided that proper credit is given to the original author.
 
----
+Attribution must include:
 
-##  Author
-
-Built with performance and simplicity in mind.
-Contributions and improvements are welcome.
+* The author’s name
+* A link to the original repository
+* A clear statement that the project is based on this work
