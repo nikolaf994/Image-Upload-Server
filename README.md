@@ -1,5 +1,4 @@
 
-```md
 # Image Upload & Dynamic Processing Server
 
 A lightweight, high-performance **Node.js image upload and delivery server** built with **Express, Multer, and Sharp**.
@@ -191,3 +190,4 @@ Attribution must include:
 * The author’s name
 * A link to the original repository
 * A clear statement that the project is based on this work
+
