@@ -51,18 +51,18 @@ Designed for modern web apps that need fast, scalable image handling without rel
 ## Folder Structure
 
 ```
-
 uploads/
 └── companyName/
-├── image-name.png
-├── image-name.jpg
-└── cache/
-├── image-name_w300_h300_finside_q80.webp
-└── ...
+    ├── image-name.png
+    ├── image-name.jpg
+    └── cache/
+        ├── image-name_w300_h300_finside_q80.webp
+        └── ...
 
 ````
 
-Each company or user has an isolated upload directory.
+Each company or user has its own isolated directory inside the uploads folder.
+
 
 ---
 
@@ -187,5 +187,6 @@ Attribution must include:
 * The author’s name
 * A link to the original repository
 * A clear statement that the project is based on this work
+
 
 
